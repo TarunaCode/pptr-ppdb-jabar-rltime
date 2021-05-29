@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "login": "node tasks/login"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ezra Khairan Permana",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime/issues"
