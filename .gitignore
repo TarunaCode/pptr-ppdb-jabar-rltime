@@ -103,5 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# Puppeteer user data dir
+# Puppeteer Stuff
 PPDB-UserData/
+result/
