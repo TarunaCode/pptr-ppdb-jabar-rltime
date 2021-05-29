@@ -1,0 +1,24 @@
+{
+  "name": "pptr-ppdb-jabar-rltime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime/issues"
+  },
+  "homepage": "https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "puppeteer-core": "^9.1.1"
+  }
+}
