@@ -8,17 +8,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime.git"
+    "url": "git+https://github.com/TarunaCode/pptr-ppdb-jabar-rltime.git"
   },
   "keywords": [],
   "author": "Ezra Khairan Permana",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime/issues"
+    "url": "https://github.com/TarunaCode/pptr-ppdb-jabar-rltime/issues"
   },
-  "homepage": "https://github.com/reacto11mecha/pptr-ppdb-jabar-rltime#readme",
+  "homepage": "https://github.com/TarunaCode/pptr-ppdb-jabar-rltime#readme",
   "dependencies": {
+    "chokidar": "^3.5.1",
+    "compression": "^1.7.4",
     "dotenv": "^10.0.0",
-    "puppeteer-core": "^9.1.1"
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "puppeteer-core": "^9.1.1",
+    "socket.io": "^4.1.2"
   }
 }
