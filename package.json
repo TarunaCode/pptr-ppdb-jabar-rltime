@@ -1,18 +1,23 @@
 {
   "name": "pptr-ppdb-jabar-rltime",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Aplikasi web node js untuk mengambil data dari website ppdb jabar menggunakan puppeteer untuk realtime data.",
+  "main": "server.js",
   "scripts": {
-    "login": "node tasks/login"
+    "dev-server": "nodemon server.js --ignore result/"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TarunaCode/pptr-ppdb-jabar-rltime.git"
   },
-  "keywords": [],
+  "keywords": [
+    "socket-io",
+    "puppeteer",
+    "ppdb",
+    "ppdb-online"
+  ],
   "author": "Ezra Khairan Permana",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/TarunaCode/pptr-ppdb-jabar-rltime/issues"
   },
@@ -25,5 +30,8 @@
     "express": "^4.17.1",
     "puppeteer-core": "^9.1.1",
     "socket.io": "^4.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
