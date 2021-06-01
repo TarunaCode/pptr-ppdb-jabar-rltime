@@ -4,6 +4,8 @@ const pptr = require("puppeteer-core");
 const { UDDIR, EXPATH } = require("../lib/constant");
 const { requestWrapper, fetchNwrite } = require("../lib");
 
+const loginWrapper = require("./login");
+
 let runned = false;
 
 (async () => {
@@ -16,6 +18,7 @@ let runned = false;
 
     const page = await browser.newPage();
     const req = requestWrapper(page);
+    const login = loginWrapper(page);
 
     await page.setRequestInterception(true);
 
@@ -35,6 +38,8 @@ let runned = false;
         }
       }
     });
+
+    await login();
 
     await page.goto("https://pendaftar.ppdb.disdik.jabarprov.go.id/biodata", {
       timeout: 0,
