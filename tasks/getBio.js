@@ -26,14 +26,16 @@ let runned = false;
       request.continue();
       if (request.url().includes("api.ppdb.disdik.jabarprov.go.id")) {
         if (request.method() === "GET") {
-          if (!runned) {
-            runned = true;
-            await fetchNwrite(
-              req,
-              request.url(),
-              request.headers(),
-              "bio.json"
-            );
+          if (request.url().includes("reference/junior-data")) {
+            if (!runned) {
+              runned = true;
+              await fetchNwrite(
+                req,
+                request.url(),
+                request.headers(),
+                "bio.json"
+              );
+            }
           }
         }
       }
