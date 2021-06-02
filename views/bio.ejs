@@ -1,15 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Bio Saya</title>
-</head>
-<body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  </script>
-</body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      li {
+        font-weight: 555;
+      }
+    </style>
+
+    <title>Bio Saya</title>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <h2 class="text-center">Biodata Saya</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="card" style="width: 23rem">
+            <div class="card-body">
+              <h5 class="card-title">Informasi Pribadi</h5>
+              <h6 class="card-subtitle mb-2 text-muted nama"></h6>
+              <ul>
+                <li>Sekolah: <span class="sekolah fw-normal"></span></li>
+                <li>Kelas: <span class="kelas fw-normal"></span></li>
+                <li>Gender: <span class="gender fw-normal"></span></li>
+                <li>Tahun Lulus: <span class="th-lulus fw-normal"></span></li>
+                <li>NIK: <span class="nik fw-normal"></span></li>
+                <li>NISN: <span class="nisn fw-normal"></span></li>
+                <li>Status Kelulusan: <span class="lulus fw-normal"></span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.min.js"></script>
+    <script>
+      function capitalizeName(name) {
+        return name.replace(/\b(\w)/g, (s) => s.toUpperCase());
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const socket = io();
+
+        const nama = document.querySelector(".nama");
+        const nik = document.querySelector(".nik");
+        const nisn = document.querySelector(".nisn");
+        const kelas = document.querySelector(".kelas");
+        const sekolah = document.querySelector(".sekolah");
+        const gender = document.querySelector(".gender");
+        const thLulus = document.querySelector(".th-lulus");
+        const lulus = document.querySelector(".lulus");
+
+        socket.on("init", (data) => {
+          const bio = data["bio.json"];
+
+          const resultBio = bio.result;
+
+          const dataKEY = Object.keys(resultBio.rapor[0]).filter((e) =>
+            e.includes("score")
+          );
+
+          const objData = dataKEY.map((key) => ({
+            score: key.replace("score_", ""),
+            nilai:
+              resultBio.rapor
+                .map((e) => e[key])
+                .reduce((curr, acc) => curr + acc) / 5,
+          }));
+
+          nama.innerText = capitalizeName(resultBio.name.toLowerCase());
+          gender.innerText =
+            resultBio.gender === "M" ? "Laki-Laki" : "Perempuan";
+          thLulus.innerText = resultBio.graduate_year;
+          nik.innerText = resultBio.nik;
+          nisn.innerText = resultBio.nisn;
+          sekolah.innerText = resultBio.school;
+          lulus.innerText =
+            resultBio.graduate_status === 0 ? "Tidak Lulus" : "Lulus";
+          kelas.innerText = resultBio.class;
+
+          window.bio = resultBio;
+        });
+      });
+    </script>
+  </body>
 </html>
