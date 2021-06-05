@@ -15,6 +15,36 @@
       li {
         font-weight: 555;
       }
+
+      @media (min-width: 1200px) {
+        .card {
+          margin-left: 80px;
+        }
+      }
+
+      @media (min-width: 992px) and (max-width: 1199.98px) {
+        .card {
+          margin-left: 40px;
+        }
+      }
+
+      @media (min-width: 768px) and (max-width: 991.98px) {
+        .card {
+          margin-left: 155px;
+        }
+      }
+
+      @media (min-width: 576px) and (max-width: 767.98px) {
+        .card {
+          margin-left: 75px;
+        }
+      }
+
+      @media (min-width: 492px) and (max-width: 575.98px) {
+        .card {
+          margin-left: 50px;
+        }
+      }
     </style>
 
     <title>Bio Saya</title>
@@ -26,8 +56,8 @@
           <h2 class="text-center">Biodata Saya</h2>
         </div>
       </div>
-      <div class="row">
-        <div class="col-4">
+      <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
           <div class="card" style="width: 23rem">
             <div class="card-body">
               <h5 class="card-title">Informasi Pribadi</h5>
@@ -45,15 +75,38 @@
           </div>
         </div>
       </div>
+      <div class="row mt-5">
+        <div class="table-responsive-md text-center">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">1</th>
+                <th scope="col">2</th>
+                <th scope="col">3</th>
+                <th scope="col">4</th>
+                <th scope="col">5</th>
+                <th scope="col">Rata-Rata</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <script src="/socket.io/socket.io.min.js"></script>
     <script>
-      function capitalizeName(name) {
-        return name.replace(/\b(\w)/g, (s) => s.toUpperCase());
-      }
+      const capitalizeName = (name) =>
+        name.replace(/\b(\w)/g, (s) => s.toUpperCase());
+
+      const capitalizeFirstLetter = (str) =>
+        str.charAt(0).toUpperCase() + str.slice(1);
 
       window.addEventListener("DOMContentLoaded", () => {
         const socket = io();
+
+        const tbody = document.querySelector('tbody')
 
         const nama = document.querySelector(".nama");
         const nik = document.querySelector(".nik");
@@ -92,7 +145,51 @@
             resultBio.graduate_status === 0 ? "Tidak Lulus" : "Lulus";
           kelas.innerText = resultBio.class;
 
-          window.bio = resultBio;
+          dataKEY.forEach((key) => {
+            const mapel = capitalizeFirstLetter(key.replace('score_', ''));
+            const semester = resultBio.rapor.map((e) => e[key]);
+            const {nilai: rataRata} = objData.find(x => x.score === key.replace('score_', ''));
+
+            const tr = document.createElement('tr');
+            const th = document.createElement('th');
+
+            th.setAttribute('scope', 'row')
+            th.innerText = mapel;
+
+            tr.appendChild(th);
+
+            semester.forEach((s) => {
+              const semesterTD = document.createElement('td');
+              semesterTD.innerText = s;
+
+              tr.appendChild(semesterTD)
+            });
+
+            const rataTD = document.createElement('td');
+            rataTD.innerText = rataRata;
+
+            tr.appendChild(rataTD)
+
+            tbody.appendChild(tr)
+          });
+
+          const totalTR = document.createElement('tr');
+          const totalTH = document.createElement('th');
+          const totalTDCOLS = document.createElement('td');
+          const totalTD = document.createElement('td');
+
+          totalTH.setAttribute('scope', 'row');
+          totalTDCOLS.setAttribute('colspan', '5');
+          totalTH.innerText = "Total"
+          totalTD.innerText = objData.map(({ nilai }) => nilai).reduce((curr, acc) => curr + acc) / objData.length;
+
+          totalTR.appendChild(totalTH)
+          totalTR.appendChild(totalTDCOLS)
+          totalTR.appendChild(totalTD)
+
+          tbody.appendChild(totalTR)
+
+          window.bio = objData;
         });
       });
     </script>
