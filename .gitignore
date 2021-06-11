@@ -106,3 +106,4 @@ dist
 # Puppeteer Stuff
 PPDB-UserData/
 result/
+info/
