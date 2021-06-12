@@ -118,7 +118,7 @@
         const lulus = document.querySelector(".lulus");
 
         socket.on("init", (data) => {
-          const bio = data["bio.json"];
+          const bio = data.data["bio.json"];
 
           const resultBio = bio.result;
 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+
+    <title>Registrant Portal</title>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <h2 class="text-center">Status Adu Nasib</h2>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="table-responsive-md text-center">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Score</th>
+                <th scope="col">Jarak 1</th>
+                <th scope="col">Jarak 2</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.min.js"></script>
+    <script>
+      const sortedRegistrant = data =>
+        data.result.itemsList.sort((a, b) => b.score - a.score);
+      let predictedIndexRegistrant = ''
+      const tdInnerText = txt => {
+        const td = document.createElement('td');
+        td.innerText = txt;
+
+        return td
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const socket = io();
+
+        const tbody = document.querySelector('tbody')
+
+        socket.on("init", (data) => {
+          const config = data.config;
+
+          predictedIndexRegistrant = `registrant-${config.SCH_ID}-${config.OPTION_TYPE}.json`
+
+          const allFiles = Object.keys(data.data);
+          const registrantIndex = allFiles.findIndex(x => x === predictedIndexRegistrant);
+
+          if (registrantIndex > -1) {
+            const registrant = data.data[predictedIndexRegistrant];
+            const sortedData = sortedRegistrant(registrant);
+
+            sortedData.forEach((item, i) => {
+              const tr = document.createElement('tr');
+              const th = document.createElement('th');
+
+              const nama = tdInnerText(item.name)
+              const score = tdInnerText(item.score)
+              const distance1 = tdInnerText(item.distance1)
+              const distance2 = tdInnerText(item.distance2 === 0 ? "-" : item.distance2)
+
+              th.setAttribute('scope', 'row')
+              th.innerText = ++i;
+
+              tr.appendChild(th);
+              tr.appendChild(nama);
+              tr.appendChild(score);
+              tr.appendChild(distance1);
+              tr.appendChild(distance2);
+
+              tbody.appendChild(tr);
+            });
+
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
