@@ -4,10 +4,11 @@ const chokidar = require("chokidar");
 const express = require("express");
 const http = require("http");
 const path = require("path");
+const fs = require("fs");
 
 let poolingData = {};
 
-const { RESULT_DIR } = require("./lib/constant");
+const { RESULT_DIR, SCH_ID, OPTION_TYPE } = require("./lib/constant");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -22,16 +23,23 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => res.render("bio"));
+app.get("/registrant", (req, res) => res.render("registrant-portal"));
 
 Socket.on("connection", (io) => {
-  io.emit("init", { ...poolingData });
+  io.emit("init", {
+    data: poolingData,
+    config: {
+      SCH_ID,
+      OPTION_TYPE,
+    },
+  });
 });
 
 watcher.on("add", (pa) => {
   const splitted = pa.split("/");
   const filename = splitted[splitted.length - 1];
 
-  const data = require(path.join(RESULT_DIR, filename));
+  const data = require(pa);
 
   poolingData[filename] = data;
 });
@@ -39,10 +47,14 @@ watcher.on("change", (pa) => {
   const splitted = pa.split("/");
   const filename = splitted[splitted.length - 1];
 
-  const data = require(path.join(RESULT_DIR, filename));
+  const data = fs.readFileSync(pa, "utf8");
 
-  if (JSON.stringify(poolingData[filename]) !== JSON.stringify(data)) {
-    poolingData[filename] = data;
+  if (data !== "") {
+    if (JSON.stringify(poolingData[filename]) !== data) {
+      poolingData[filename] = JSON.parse(data);
+    }
+  } else {
+    console.log("File kosong,");
   }
 });
 
