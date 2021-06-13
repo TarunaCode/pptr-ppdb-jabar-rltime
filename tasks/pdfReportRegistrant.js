@@ -90,7 +90,7 @@ const namaSekolah = school.name.replace(/\s/g, "-");
     const jam = waktu.toLocaleTimeString("id-ID").replace(/\./g, "-");
     const tanggal = waktu.toLocaleDateString("id-ID").replace(/\//g, "-");
 
-    const namaFile = `${namaSekolah}_${SCH_ID}_${tanggal}_${jam}.pdf`;
+    const namaFile = `${namaSekolah}_${OPTION_TYPE}_${SCH_ID}_${tanggal}_${jam}.pdf`;
 
     await page.pdf({
       path: path.join(RES_PDF_DIR, namaFile),
