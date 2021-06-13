@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev-server": "nodemon server.js --ignore result/",
-    "getBio": "node tasks/getBio"
+    "getBio": "node tasks/getBio",
+    "pdf-report": "node tasks/pdfReportRegistrant"
   },
   "repository": {
     "type": "git",
