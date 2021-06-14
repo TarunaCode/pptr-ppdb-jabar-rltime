@@ -58,9 +58,18 @@ const namaSekolah = school.name.replace(/\s/g, "-");
     const waktu = new Date();
     console.log("Data berhasil diambil");
 
-    await page.evaluate((data) => {
-      const sortedRegistrant = (data) =>
-        data.result.itemsList.sort((a, b) => b.score - a.score);
+    const sortedRegistrant = ((OPTION_TYPE, data) => {
+      const itemsList = data.result.itemsList;
+
+      switch (OPTION_TYPE) {
+        case "prestasi-rapor":
+          return itemsList.sort((a, b) => b.score - a.score);
+        case "zonasi":
+          return itemsList.sort((a, b) => b.distance1 - a.distance1);
+      }
+    })(OPTION_TYPE, data);
+
+    await page.evaluate((sortedData) => {
       const tdInnerText = (txt) => {
         const td = document.createElement("td");
         td.innerText = txt;
@@ -69,8 +78,6 @@ const namaSekolah = school.name.replace(/\s/g, "-");
       };
 
       const tbody = document.querySelector("tbody");
-
-      const sortedData = sortedRegistrant(data);
 
       sortedData.forEach((item, i) => {
         const tr = document.createElement("tr");
@@ -94,7 +101,7 @@ const namaSekolah = school.name.replace(/\s/g, "-");
 
         tbody.appendChild(tr);
       });
-    }, data);
+    }, sortedRegistrant);
     console.log("Looping Data Berhasil");
 
     const jam = waktu.toLocaleTimeString("id-ID").replace(/\./g, "-");
