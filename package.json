@@ -6,6 +6,7 @@
   "scripts": {
     "dev-server": "nodemon server.js --ignore result/",
     "getBio": "node tasks/getBio",
+    "getSchools": "node tasks/getSchools",
     "pdf-report": "node tasks/pdfReportRegistrant"
   },
   "repository": {
