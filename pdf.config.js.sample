@@ -1,0 +1,6 @@
+// contoh
+// const schools = ["SMAN 2 BEKASI", "SMAN 4 BEKASI", "SMAN 12 BEKASI"];
+
+const schools = [];
+
+module.exports = schools;
