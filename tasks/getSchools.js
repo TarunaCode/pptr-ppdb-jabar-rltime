@@ -37,10 +37,20 @@ if (!fs.existsSync(INFO_DIR)) fs.mkdirSync(INFO_DIR);
 
     const schools = await req(mainURL);
 
-    const data = schools.result.itemsList.map((school) => ({
-      id: school.id,
-      name: school.name,
-    }));
+    const filterization = ({ name }) => {
+      const arrayFiltered = name
+        .split(/\s/g)
+        .filter((constraint) => Number(constraint));
+
+      return Number(arrayFiltered[0]);
+    };
+
+    const data = schools.result.itemsList
+      .map((school) => ({
+        id: school.id,
+        name: school.name,
+      }))
+      .sort((a, b) => filterization(a) - filterization(b));
 
     fs.writeFileSync(
       path.join(
