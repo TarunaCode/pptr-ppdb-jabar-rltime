@@ -4,6 +4,7 @@
   "description": "Aplikasi web node js untuk mengambil data dari website ppdb jabar menggunakan puppeteer untuk realtime data.",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "dev-server": "nodemon server.js --ignore result/",
     "getBio": "node tasks/getBio",
     "getSchools": "node tasks/getSchools",
