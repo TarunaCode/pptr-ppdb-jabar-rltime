@@ -51,6 +51,8 @@ const namaSekolah = school.name.replace(/\s/g, "-");
           return itemsList.sort((a, b) => b.score - a.score);
         case "zonasi":
           return itemsList.sort((a, b) => b.distance1 - a.distance1);
+        default:
+          return itemsList;
       }
     })(OPTION_TYPE, data);
 
