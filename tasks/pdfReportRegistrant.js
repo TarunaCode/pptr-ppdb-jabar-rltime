@@ -49,8 +49,9 @@ const namaSekolah = school.name.replace(/\s/g, "-");
       switch (OPTION_TYPE) {
         case "prestasi-rapor":
           return itemsList.sort((a, b) => b.score - a.score);
+        case "ketm":
         case "zonasi":
-          return itemsList.sort((a, b) => b.distance1 - a.distance1);
+          return itemsList.sort((a, b) => a.distance1 - b.distance1);
         default:
           return itemsList;
       }
