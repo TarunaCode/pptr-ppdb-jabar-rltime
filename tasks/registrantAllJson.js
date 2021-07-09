@@ -13,6 +13,7 @@ const {
   CITY,
 } = require("../lib/constant");
 const registrantUrl = require("../utils/registrantUrl");
+const schoolPortalOpt = require("../utils/schoolPortalOpt");
 const { requestWrapper } = require("../lib");
 
 const city = CITY.replace(/\s/g, "_");
@@ -38,6 +39,8 @@ if (!fs.existsSync(RES_JSON_DIR)) fs.mkdirSync(RES_JSON_DIR);
 
     for (const sch of schools) {
       const url = registrantUrl(sch.id, OPTION_TYPE);
+      const urlSchoolPortal = schoolPortalOpt(sch.id);
+
       const fileName = path.join(
         RES_JSON_DIR,
         `registrant-${sch.name.replace(/\s/g, "_")}-${
@@ -47,9 +50,14 @@ if (!fs.existsSync(RES_JSON_DIR)) fs.mkdirSync(RES_JSON_DIR);
 
       console.log(`Fetching: ${sch.name}`);
       const data = await req(url);
+      const dataSchPortal = await req(urlSchoolPortal);
       console.log(`Fetched: ${sch.name}`);
 
-      fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+      const quota = dataSchPortal.result.options.filter(
+        (option) => option.type === OPTION_TYPE
+      )[0].quota;
+
+      fs.writeFileSync(fileName, JSON.stringify({ ...data, quota }, null, 2));
     }
 
     console.log("Selesai");
