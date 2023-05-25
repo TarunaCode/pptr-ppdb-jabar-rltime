@@ -14,11 +14,9 @@ const { requestWrapper, schools } = require("../lib");
 
 const html = fs.readFileSync(path.join(MAINDIR, "views", "rgstn.html"), "utf8");
 
-const school = schools.find((school) => school.id === SCH_NPSN);
+const school = schools.find((school) => school.npsn === SCH_NPSN);
 
 if (!fs.existsSync(RES_PDF_DIR)) fs.mkdirSync(RES_PDF_DIR);
-
-const namaSekolah = school.name.replace(/\s/g, "-");
 
 (async () => {
   try {
@@ -93,7 +91,7 @@ const namaSekolah = school.name.replace(/\s/g, "-");
     const jam = waktu.toLocaleTimeString("id-ID").replace(/\./g, "-");
     const tanggal = waktu.toLocaleDateString("id-ID").replace(/\//g, "-");
 
-    const namaFile = `${namaSekolah}_${OPTION_TYPE}_${SCH_NPSN}_${tanggal}_${jam}.pdf`;
+    const namaFile = `${school.name}_${OPTION_TYPE}_${SCH_NPSN}_${tanggal}_${jam}.pdf`;
 
     await page.pdf({
       path: path.join(RES_PDF_DIR, namaFile),

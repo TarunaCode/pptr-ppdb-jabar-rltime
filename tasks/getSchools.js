@@ -11,7 +11,7 @@ const {
 } = require("../lib/constant");
 
 const schoolLists = (city, type, level) =>
-  `https://api.ppdb.jabarprov.go.id/portal/school?page=1&limit=1000&pagination=false&filters[0][key]=address_city&filters[0][value]=${encodeURI(
+  `https://api.ppdb.jabarprov.go.id/portal/school?pagination=false&filters[0][key]=address_city&filters[0][value]=${encodeURI(
     city.toUpperCase().trim()
   )}&filters[1][key]=type&filters[1][value]=${type
     .toLowerCase()
