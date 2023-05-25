@@ -4,13 +4,13 @@ const { MAINDIR } = require("../lib/constant");
 const config = require("../pdf.config");
 const { schools } = require("../lib");
 
-const genPdfAsync = (SCH_ID) =>
+const genPdfAsync = (SCH_NPSN) =>
   new Promise((resolve) => {
     const pdfReporting = execFile("node", ["tasks/pdfReportRegistrant"], {
       cwd: MAINDIR,
       env: {
         ...process.env,
-        SCH_ID,
+        SCH_NPSN,
       },
     });
 

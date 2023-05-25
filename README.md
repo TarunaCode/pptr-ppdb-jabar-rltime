@@ -19,7 +19,7 @@ PASSWORD=XXX
 CITY=KOTA BEKASI
 LEVEL=sma
 TYPE=negeri
-SCH_ID=608f85de78c5383cc367c3b1
+SCH_NPSN=20231718
 OPTION_TYPE=prestasi-rapor
 ```
 
@@ -31,7 +31,7 @@ Keterangan :
 - `CITY`: Kota/Kabupaten yang diperlukan untuk mengambil data seluruh sekolah disatu kawasan.
 - `LEVEL`: Pilihan jenjang sekolah. Valuenya `sma`, `smk`, atau `slb`. Pastikan huruf kecil.
 - `TYPE`: Tipe sekolah yang dituju, `swasta` atau `negeri`.
-- `SCH_ID`: ID unique sekolah, data ini didapatkan setelah menjalankan `npm run getSchools`.
+- `SCH_NPSN`: ID unique sekolah, data ini didapatkan setelah menjalankan `npm run getSchools`.
 - `OPTION_TYPE`: Jalur pendaftaran, valuenya bisa berupa `abk`, `ketm`, `kondisi-tertentu`, `perpindahan` (Perpindahan tugas ortu / Anak Guru), `prestasi` (Kejuaraan), `prestasi-rapor`, dan `zonasi`.
 
 ## Penggunaan
@@ -52,7 +52,7 @@ Setup yang dilakukan paling utama adalah mengisi `EXPATH` dimana google chrome a
 
   > Fitur ini bisa juga digunakan untuk pendaftar, jalankan `npm run getRegistrant` untuk mendapatkan data registrant setelah menjalankan getSchools. Buka http://localhost:3000/registrant untuk melihat datanya.
 
-  Jika anda bukan pendatar, yang perlu diisi adalah `CITY`, `LEVEL`, `TYPE`, dan `OPTION_TYPE`. Ini diperlukan untuk mendapatkan `SCH_ID`, jalankan
+  Jika anda bukan pendatar, yang perlu diisi adalah `CITY`, `LEVEL`, `TYPE`, dan `OPTION_TYPE`. Ini diperlukan untuk mendapatkan `SCH_NPSN`, jalankan
 
   ```sh
   npm run getSchools

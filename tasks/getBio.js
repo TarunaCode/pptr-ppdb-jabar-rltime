@@ -24,7 +24,7 @@ let runned = false;
 
     page.on("request", async (request) => {
       request.continue();
-      if (request.url().includes("api.ppdb.disdik.jabarprov.go.id")) {
+      if (request.url().includes("api.ppdb.jabarprov.go.id")) {
         if (request.method() === "GET") {
           if (request.url().includes("reference/junior-data")) {
             if (!runned) {

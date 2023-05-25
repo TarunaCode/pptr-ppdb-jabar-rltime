@@ -4,7 +4,7 @@ const fs = require("fs");
 const {
   EXPATH,
   UDDIR,
-  SCH_ID,
+  SCH_NPSN,
   OPTION_TYPE,
   RESULT_DIR,
 } = require("../lib/constant");
@@ -15,7 +15,7 @@ if (!fs.existsSync(RESULT_DIR)) fs.mkdirSync(RESULT_DIR);
 
 (async () => {
   try {
-    const mainURL = registrantUrl(SCH_ID, OPTION_TYPE);
+    const mainURL = registrantUrl(SCH_NPSN, OPTION_TYPE);
 
     const browser = await pptr.launch({
       executablePath: EXPATH,
@@ -30,7 +30,7 @@ if (!fs.existsSync(RESULT_DIR)) fs.mkdirSync(RESULT_DIR);
       req,
       mainURL,
       {},
-      `registrant-${SCH_ID}-${OPTION_TYPE}.json`
+      `registrant-${SCH_NPSN}-${OPTION_TYPE}.json`
     );
   } catch (e) {
     console.error(e);

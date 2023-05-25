@@ -4,7 +4,7 @@ const fs = require("fs");
 const {
   EXPATH,
   UDDIR,
-  SCH_ID,
+  SCH_NPSN,
   OPTION_TYPE,
   RES_PDF_DIR,
   MAINDIR,
@@ -14,7 +14,7 @@ const { requestWrapper, schools } = require("../lib");
 
 const html = fs.readFileSync(path.join(MAINDIR, "views", "rgstn.html"), "utf8");
 
-const school = schools.find((school) => school.id === SCH_ID);
+const school = schools.find((school) => school.id === SCH_NPSN);
 
 if (!fs.existsSync(RES_PDF_DIR)) fs.mkdirSync(RES_PDF_DIR);
 
@@ -22,7 +22,7 @@ const namaSekolah = school.name.replace(/\s/g, "-");
 
 (async () => {
   try {
-    const mainURL = registrantUrl(SCH_ID, OPTION_TYPE);
+    const mainURL = registrantUrl(SCH_NPSN, OPTION_TYPE);
 
     const browser = await pptr.launch({
       executablePath: EXPATH,
@@ -93,7 +93,7 @@ const namaSekolah = school.name.replace(/\s/g, "-");
     const jam = waktu.toLocaleTimeString("id-ID").replace(/\./g, "-");
     const tanggal = waktu.toLocaleDateString("id-ID").replace(/\//g, "-");
 
-    const namaFile = `${namaSekolah}_${OPTION_TYPE}_${SCH_ID}_${tanggal}_${jam}.pdf`;
+    const namaFile = `${namaSekolah}_${OPTION_TYPE}_${SCH_NPSN}_${tanggal}_${jam}.pdf`;
 
     await page.pdf({
       path: path.join(RES_PDF_DIR, namaFile),

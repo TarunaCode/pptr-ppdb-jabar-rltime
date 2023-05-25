@@ -32,51 +32,54 @@
                 <th scope="col">Jarak 2</th>
               </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </div>
     </div>
     <script src="/socket.io/socket.io.min.js"></script>
     <script>
-      const sortedRegistrant = data =>
+      const sortedRegistrant = (data) =>
         data.result.itemsList.sort((a, b) => b.score - a.score);
-      let predictedIndexRegistrant = ''
-      const tdInnerText = txt => {
-        const td = document.createElement('td');
+      let predictedIndexRegistrant = "";
+      const tdInnerText = (txt) => {
+        const td = document.createElement("td");
         td.innerText = txt;
 
-        return td
-      }
+        return td;
+      };
 
       window.addEventListener("DOMContentLoaded", () => {
         const socket = io();
 
-        const tbody = document.querySelector('tbody')
+        const tbody = document.querySelector("tbody");
 
         socket.on("init", (data) => {
           const config = data.config;
 
-          predictedIndexRegistrant = `registrant-${config.SCH_ID}-${config.OPTION_TYPE}.json`
+          predictedIndexRegistrant = `registrant-${config.SCH_NPSN}-${config.OPTION_TYPE}.json`;
 
           const allFiles = Object.keys(data.data);
-          const registrantIndex = allFiles.findIndex(x => x === predictedIndexRegistrant);
+          const registrantIndex = allFiles.findIndex(
+            (x) => x === predictedIndexRegistrant
+          );
 
           if (registrantIndex > -1) {
             const registrant = data.data[predictedIndexRegistrant];
             const sortedData = sortedRegistrant(registrant);
 
             sortedData.forEach((item, i) => {
-              const tr = document.createElement('tr');
-              const th = document.createElement('th');
+              const tr = document.createElement("tr");
+              const th = document.createElement("th");
 
-              const nama = tdInnerText(item.name)
-              const score = tdInnerText(item.score)
-              const distance1 = tdInnerText(item.distance1)
-              const distance2 = tdInnerText(item.distance2 === 0 ? "-" : item.distance2)
+              const nama = tdInnerText(item.name);
+              const score = tdInnerText(item.score);
+              const distance1 = tdInnerText(item.distance1);
+              const distance2 = tdInnerText(
+                item.distance2 === 0 ? "-" : item.distance2
+              );
 
-              th.setAttribute('scope', 'row')
+              th.setAttribute("scope", "row");
               th.innerText = ++i;
 
               tr.appendChild(th);
@@ -87,7 +90,6 @@
 
               tbody.appendChild(tr);
             });
-
           }
         });
       });

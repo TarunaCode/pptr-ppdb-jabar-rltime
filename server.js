@@ -8,7 +8,7 @@ const fs = require("fs");
 
 let poolingData = {};
 
-const { RESULT_DIR, SCH_ID, OPTION_TYPE } = require("./lib/constant");
+const { RESULT_DIR, SCH_NPSN, OPTION_TYPE } = require("./lib/constant");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -29,7 +29,7 @@ Socket.on("connection", (io) => {
   io.emit("init", {
     data: poolingData,
     config: {
-      SCH_ID,
+      SCH_NPSN,
       OPTION_TYPE,
     },
   });
