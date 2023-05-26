@@ -22,8 +22,7 @@ app.use(compression());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => res.render("bio"));
-app.get("/registrant", (req, res) => res.render("registrant-portal"));
+app.get("/", (req, res) => res.render("registrant-portal"));
 
 Socket.on("connection", (io) => {
   io.emit("init", {

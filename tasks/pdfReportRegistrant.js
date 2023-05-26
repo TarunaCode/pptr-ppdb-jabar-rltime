@@ -1,16 +1,15 @@
-const pptr = require("puppeteer-core");
+const pptr = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 const {
   EXPATH,
-  UDDIR,
   SCH_NPSN,
   OPTION_TYPE,
   RES_PDF_DIR,
   MAINDIR,
 } = require("../lib/constant");
 const registrantUrl = require("../utils/registrantUrl");
-const { requestWrapper, schools } = require("../lib");
+const { schools } = require("../lib");
 
 const html = fs.readFileSync(path.join(MAINDIR, "views", "rgstn.html"), "utf8");
 
@@ -18,31 +17,33 @@ const school = schools.find((school) => school.npsn === SCH_NPSN);
 
 if (!fs.existsSync(RES_PDF_DIR)) fs.mkdirSync(RES_PDF_DIR);
 
-(async () => {
-  try {
-    const mainURL = registrantUrl(SCH_NPSN, OPTION_TYPE);
+const actualOption = process.env.OPTION_TYPE ?? OPTION_TYPE;
 
-    const browser = await pptr.launch({
-      executablePath: EXPATH,
-      userDataDir: UDDIR,
-      // headless: false,
-    });
+(async () => {
+  const browser = await pptr.launch({
+    executablePath: EXPATH,
+    headless: false,
+  });
+
+  try {
+    const mainURL = registrantUrl(SCH_NPSN, actualOption);
+
     console.log("Puppeteer spawned");
 
     const page = await browser.newPage();
-    const req = requestWrapper(page);
 
-    await page.setContent(html, { waitUntil: "networkidle0" });
-    console.log("HTML Berhasil Di set");
+    await page.goto(mainURL, { timeout: 0 });
 
-    const data = await req(mainURL);
+    const data = JSON.parse(await page.$eval("*", (el) => el.innerText));
     const waktu = new Date();
     console.log("Data berhasil diambil");
 
-    const sortedRegistrant = ((OPTION_TYPE, data) => {
+    const sortedRegistrant = ((option, data) => {
       const itemsList = data.result.itemsList;
 
-      switch (OPTION_TYPE) {
+      if (!itemsList) return [];
+
+      switch (option) {
         case "prestasi-rapor":
           return itemsList.sort((a, b) => b.score - a.score);
         case "ketm":
@@ -51,7 +52,17 @@ if (!fs.existsSync(RES_PDF_DIR)) fs.mkdirSync(RES_PDF_DIR);
         default:
           return itemsList;
       }
-    })(OPTION_TYPE, data);
+    })(actualOption, data);
+
+    if (sortedRegistrant.length < 1) {
+      console.log("BELUM ADA YANG DAFTAR!");
+
+      await browser.close();
+      process.exit();
+    }
+
+    await page.setContent(html, { waitUntil: "networkidle0" });
+    console.log("HTML Berhasil Di set");
 
     await page.evaluate((sortedData) => {
       const tdInnerText = (txt) => {
@@ -104,5 +115,7 @@ if (!fs.existsSync(RES_PDF_DIR)) fs.mkdirSync(RES_PDF_DIR);
     console.log("Closed");
   } catch (e) {
     console.error(e);
+
+    await browser.close();
   }
 })();

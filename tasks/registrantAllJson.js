@@ -1,4 +1,4 @@
-const pptr = require("puppeteer-core");
+const pptr = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 

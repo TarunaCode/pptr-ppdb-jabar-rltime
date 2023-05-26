@@ -1,4 +1,4 @@
-const pptr = require("puppeteer-core");
+const pptr = require("puppeteer");
 const { UDDIR, EXPATH, USERNAME, PASSWORD } = require("../lib/constant");
 
 module.exports = (page) => async () => {

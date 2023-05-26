@@ -1,2 +1,2 @@
-module.exports = (schoolID) =>
-  `https://api.ppdb.jabarprov.go.id/portal/school/${schoolID}?populate=options`;
+module.exports = (schoolNPSN) =>
+  `https://api.ppdb.jabarprov.go.id/portal/school/${schoolNPSN}?populate=options`;
